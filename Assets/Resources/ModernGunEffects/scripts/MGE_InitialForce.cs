@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class MGE_InitialForce : MonoBehaviour {
 
@@ -58,9 +59,8 @@ public class MGE_InitialForce : MonoBehaviour {
 			myRB.AddRelativeTorque (new Vector3 (x_tq_act, y_tq_act, z_tq_act), ForceMode.Impulse);
 		}
 
-
-
-
+		Debug.Log($"Position x:{x_act}, y:{y_act}, z:{z_act}\n" +
+		          $"Rotation: x{x_tq_act}, y:{y_tq_act}, z:{z_tq_act}");
 	}
 	
 	// Update is called once per frame

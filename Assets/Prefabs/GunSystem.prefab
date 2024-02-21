@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4656417286879920}
   - component: {fileID: 2246731793944439711}
   m_Layer: 0
-  m_Name: FireManager
+  m_Name: GunSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c66812d8e5e6db43962913c002e9ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootEffect: {fileID: 153266, guid: 2db8bb474dac95c42a7f7a2da5069406, type: 3}
+  _shootEffect: {fileID: 153266, guid: 2db8bb474dac95c42a7f7a2da5069406, type: 3}
   _plane: {fileID: 0}
   _muzzle: {fileID: 0}
   _bulletPrefab: {fileID: 2617539738465841054, guid: 77786dab43d30d645aa31413799c72c8,

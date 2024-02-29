@@ -27,6 +27,15 @@ using UnityEngine;
 
         public T Take()
         {
+            var itemFromPool = TakeWithoutSetActive();
+            
+            itemFromPool.gameObject.SetActive(true);
+
+            return itemFromPool;
+        }
+
+        public T TakeWithoutSetActive()
+        {
             if (_notUsedItems.Count == 0)
             {
                 AddNewItemInPool();
@@ -36,8 +45,6 @@ using UnityEngine;
             var itemFromPool = _notUsedItems[lastIndex];
             _notUsedItems.RemoveAt(lastIndex);
             _usedItems.Add(itemFromPool);
-            
-            itemFromPool.gameObject.SetActive(true);
 
             return itemFromPool;
         }

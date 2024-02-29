@@ -17,7 +17,7 @@ public class FireManager : MonoBehaviour
 
         private void Awake()
         {
-            _bulletsPool = new MonoBehaviourPool<Bullet>(_bulletPrefab, _player, _bulletsCount);
+            _bulletsPool = new MonoBehaviourPool<Bullet>(_bulletPrefab, null, _bulletsCount);
 
             var effectsCount = _bulletsCount;
             _effectsPool = new MonoBehaviourPool<ShootEffect>(_effectPrefab, _player, effectsCount);
@@ -32,7 +32,7 @@ public class FireManager : MonoBehaviour
         {
             foreach (var gun in _guns)
             {
-                var bullet = _bulletsPool.Take();
+                var bullet = _bulletsPool.TakeWithoutSetActive();
                 bullet.Hit += OnBulletHit;
 
                 var effect = _effectsPool.Take();

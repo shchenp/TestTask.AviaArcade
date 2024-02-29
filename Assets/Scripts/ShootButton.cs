@@ -7,20 +7,21 @@ using UnityEngine.UI;
 public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Image _image;
-    [SerializeField] private Color _pressedButtonColor;
+    [SerializeField] private float _timeUntilNextShot;
     
     [SerializeField] private UnityEvent _fireAllGuns;
-    
-    [SerializeField] private float _timeUntilNextShot;
 
     private float _time;
 
     private Color _defaultButtonColor;
+    private Color _pressedButtonColor;
     private bool _isButtonPressed;
 
     private void Awake()
     {
         _defaultButtonColor = _image.color;
+        _pressedButtonColor = _image.color;
+        _pressedButtonColor.a /= 2;
     }
 
     public void OnPointerDown(PointerEventData eventData)

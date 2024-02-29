@@ -1,23 +1,39 @@
+using System;
 using UnityEngine;
 
     public class Bullet : MonoBehaviour
     {
+        public Action<Bullet> Hit;
+        
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private float _force;
-
-        private Vector3 _aimPosition;
         
-        public void Initialize(Vector3 aim)
-        {
-            var direction = (aim - transform.position).normalized;
-            direction.z *= _force;
-            
-            _aimPosition = direction;
-        }
+        private bool _isHit;
+        private float _currentTime;
+        private float _time = 4f;
 
-        private void Start()
+       public void Initialize(Transform parent, Transform aim)
+       {
+           SetOn(parent);
+        
+           Fly(aim);
+       }
+       
+       private void SetOn(Transform parent)
+       {
+           transform.SetParent(null);
+           
+           transform.position = Vector3.zero;
+           transform.rotation = Quaternion.identity;
+           _rigidbody.velocity = Vector3.zero;
+           
+           transform.SetParent(parent, false);
+       }
+
+        private void Fly(Transform aim)
         {
-            _rigidbody.AddRelativeForce(_aimPosition, ForceMode.Impulse);
+            var direction = (aim.position - transform.position).normalized;
+            _rigidbody.AddForce(direction * _force, ForceMode.Impulse);
         }
 
         private void Update()
@@ -34,8 +50,21 @@ using UnityEngine;
                     
                     effect.transform.position = hit.point;
                     effect.transform.LookAt(hit.point + hit.point.normalized);
+
+                    _isHit = true;
+                }
+            }
+            
+            if (_isHit)
+            {
+                _currentTime += Time.deltaTime;
+
+                if (_currentTime >= _time)
+                {
+                    Hit?.Invoke(this);
                     
-                    _rigidbody.Sleep();
+                    _currentTime = 0;
+                    _isHit = false;
                 }
             }
         }

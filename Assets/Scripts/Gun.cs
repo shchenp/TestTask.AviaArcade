@@ -1,26 +1,19 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] private GameObject _shootEffect;
-    [SerializeField] private Transform _plane;
     [SerializeField] private Transform _muzzle;
-    [SerializeField] private Bullet _bulletPrefab;
 
-    public void Fire()
+    private Transform _aim;
+
+    public void Initialize(Transform aim)
     {
-        var aim = _plane.transform.position + Vector3.forward;
-        
-        var impactEffectInstance = Instantiate(_shootEffect, transform.position, transform.rotation);
-        Destroy(impactEffectInstance, 4);
-    
-        ShootBullet(aim);
+        _aim = aim;
+        _muzzle.LookAt(aim);
     }
 
-    private void ShootBullet(Vector3 aim)
+    public void Fire(Bullet bullet)
     {
-        var bullet = Instantiate(_bulletPrefab, _muzzle);
-        bullet.Initialize(aim);
+        bullet.Initialize(_muzzle, _aim);
     }
 }

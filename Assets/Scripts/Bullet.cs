@@ -6,7 +6,7 @@ using UnityEngine;
     {
         public Action<Bullet> Hit;
         
-        [SerializeField] private Rigidbody _rigidbody;
+        //[SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private TrailRenderer _trailRenderer;
         [SerializeField] private float _force;
         
@@ -16,8 +16,12 @@ using UnityEngine;
 
        public void Initialize(Transform parent, Transform aim)
        {
-           SetOn(parent);
-           FlyTo(aim);
+           //SetOn(parent);
+           //FlyTo(aim);
+
+           transform.position = parent.position;
+           transform.rotation = parent.rotation;
+           gameObject.SetActive(true);
        }
 
        private void OnDisable()
@@ -27,7 +31,7 @@ using UnityEngine;
            
            transform.position = Vector3.zero;
            transform.rotation = Quaternion.identity;
-           _rigidbody.velocity = Vector3.zero;
+           //_rigidbody.velocity = Vector3.zero;
        }
 
        private void SetOn(Transform parent)
@@ -36,14 +40,21 @@ using UnityEngine;
            gameObject.SetActive(true);
        }
 
+       private void Fly()
+       {
+           transform.position += transform.forward * _force * Time.deltaTime;
+       }
+
         private void FlyTo(Transform aim)
         {
             var direction = (aim.position - transform.position).normalized;
-            _rigidbody.AddForce(direction * _force, ForceMode.Impulse);
+            //_rigidbody.AddForce(direction * _force, ForceMode.Impulse);
         }
 
         private void Update()
         {
+            Fly();
+            
             var ray = new Ray(transform.position, transform.forward);
             
             if (Physics.Raycast(ray, out var hit, 2f) && !_isHit)
@@ -58,7 +69,7 @@ using UnityEngine;
                     effect.transform.LookAt(hit.point + hit.point.normalized);
 
                     _isHit = true;
-                    _rigidbody.Sleep();
+                    //_rigidbody.Sleep();
                 }
             }
             

@@ -7,6 +7,7 @@ public class AimPoint : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
+            Debug.Log("AimPoint OnTriggerEnter");
             var bullet = other.GetComponent<Bullet>();
             bullet.Hit?.Invoke(bullet);
         }

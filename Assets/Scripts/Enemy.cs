@@ -1,8 +1,25 @@
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
+{
+    [SerializeField] private EffectsContainer _impactEffectPrefab;
+    [SerializeField] private float _impactEffectTime;
+
+    private MonoBehaviourPool<EffectsContainer> _impactEffectsPool;
+
+
+    private void Awake()
     {
-        public GameObject ImpactEffectPrefab => _impactEffectPrefab;
-        
-        [SerializeField] private GameObject _impactEffectPrefab;
+        _impactEffectsPool = new MonoBehaviourPool<EffectsContainer>(_impactEffectPrefab, transform);
     }
+
+    public void OnHit(Vector3 hitPoint, Vector3 hitNormal)
+    {
+        var effect = _impactEffectsPool.Take();
+        effect.transform.position = hitPoint;
+        effect.transform.LookAt(hitPoint + hitNormal);
+        effect.Play();
+
+        this.DoAfter(() => _impactEffectsPool.Release(effect), _impactEffectTime);
+    }
+}

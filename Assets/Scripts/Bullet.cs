@@ -1,91 +1,49 @@
 using System;
 using UnityEngine;
 
-    //TODO Разобраться с артефактами трейлов
-    public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour
+{
+    public Action<Bullet> Hit;
+    
+    [SerializeField] private TrailRenderer _trailRenderer;
+    [SerializeField] private float _force;
+    [SerializeField] private float _lifeTime;
+    
+   public void Initialize(Transform parent)
+   {
+       transform.position = parent.position;
+       transform.rotation = parent.rotation;
+       
+       this.DoAfter(() => Hit?.Invoke(this), _lifeTime);
+   }
+
+   private void OnDisable()
+   {
+       _trailRenderer.Clear();
+   }
+
+   private void MoveForward(float distance)
+   {
+       transform.position += transform.forward * distance;
+   }
+
+    private void Update()
     {
-        public Action<Bullet> Hit;
+        var flyDistance = _force * Time.deltaTime;
+        MoveForward(flyDistance);
         
-        //[SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private TrailRenderer _trailRenderer;
-        [SerializeField] private float _force;
+        // todo сменить реализацию попадания пули во врага, переместить логику в Enemy
         
-        private bool _isHit;
-        private float _currentTime;
-        private float _time = 4f;
-
-       public void Initialize(Transform parent, Transform aim)
-       {
-           //SetOn(parent);
-           //FlyTo(aim);
-
-           transform.position = parent.position;
-           transform.rotation = parent.rotation;
-           gameObject.SetActive(true);
-       }
-
-       private void OnDisable()
-       {
-           //transform.SetParent(null);
-           _trailRenderer.Clear();
-           
-           transform.position = Vector3.zero;
-           transform.rotation = Quaternion.identity;
-           //_rigidbody.velocity = Vector3.zero;
-       }
-
-       private void SetOn(Transform parent)
-       {
-           transform.SetParent(parent, false);
-           gameObject.SetActive(true);
-       }
-
-       private void Fly()
-       {
-           transform.position += transform.forward * _force * Time.deltaTime;
-       }
-
-        private void FlyTo(Transform aim)
+        var ray = new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out var hit, flyDistance))
         {
-            var direction = (aim.position - transform.position).normalized;
-            //_rigidbody.AddForce(direction * _force, ForceMode.Impulse);
-        }
-
-        private void Update()
-        {
-            Fly();
-            
-            var ray = new Ray(transform.position, transform.forward);
-            
-            if (Physics.Raycast(ray, out var hit, 2f) && !_isHit)
+            if (hit.transform.gameObject.CompareTag(GlobalConstants.EnemyTag))
             {
-                if (hit.transform.gameObject.CompareTag("Enemy"))
-                {
-                    var enemy = hit.transform.GetComponent<Enemy>();
-                    
-                    var effect = Instantiate(enemy.ImpactEffectPrefab, enemy.transform);
-                    
-                    effect.transform.position = hit.point;
-                    effect.transform.LookAt(hit.point + hit.point.normalized);
-
-                    _isHit = true;
-                    //_rigidbody.Sleep();
-                }
-            }
-            
-            // TODO изменить реализацию исчезновения следов от пуль
-            
-            if (_isHit)
-            {
-                _currentTime += Time.deltaTime;
-
-                if (_currentTime >= _time)
-                {
-                    Hit?.Invoke(this);
-                    
-                    _currentTime = 0;
-                    _isHit = false;
-                }
+                var enemy = hit.transform.GetComponent<Enemy>();
+                enemy.OnHit(hit.point, hit.normal);
+                
+                Hit?.Invoke(this);
             }
         }
     }
+}

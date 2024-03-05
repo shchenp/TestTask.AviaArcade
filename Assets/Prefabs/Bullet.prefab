@@ -169,3 +169,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trailRenderer: {fileID: 9600000}
   _force: 100
+  _lifeTime: 1

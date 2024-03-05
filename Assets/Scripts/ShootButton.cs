@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// todo добавить звук стрельбы и смену камеры с сильной тряской при нажатии на кнопку
 [RequireComponent(typeof(Image))]
 public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -43,7 +44,7 @@ public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         _time += Time.deltaTime;
 
         var isCanFire = _time > _timeUntilNextShot;
-        if (_isButtonPressed && isCanFire)
+        if ((_isButtonPressed || Input.GetKeyDown(KeyCode.Space)) && isCanFire)
         {
             _fireAllGuns?.Invoke();
             _time = 0;

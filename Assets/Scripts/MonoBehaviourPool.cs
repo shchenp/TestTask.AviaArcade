@@ -12,7 +12,7 @@ using UnityEngine;
         private readonly T _prefab;
         private readonly Transform _parent;
 
-        public MonoBehaviourPool(T prefab, Transform parent, int defaultCount)
+        public MonoBehaviourPool(T prefab, Transform parent, int defaultCount = 4)
         {
             _prefab = prefab;
             _parent = parent;
@@ -27,15 +27,6 @@ using UnityEngine;
 
         public T Take()
         {
-            var itemFromPool = TakeWithoutSetActive();
-            
-            itemFromPool.gameObject.SetActive(true);
-
-            return itemFromPool;
-        }
-
-        public T TakeWithoutSetActive()
-        {
             if (_notUsedItems.Count == 0)
             {
                 AddNewItemInPool();
@@ -45,6 +36,7 @@ using UnityEngine;
             var itemFromPool = _notUsedItems[lastIndex];
             _notUsedItems.RemoveAt(lastIndex);
             _usedItems.Add(itemFromPool);
+            itemFromPool.gameObject.SetActive(true);
 
             return itemFromPool;
         }
@@ -52,8 +44,6 @@ using UnityEngine;
         public void Release(T item)
         {
             item.gameObject.SetActive(false);
-            item.transform.SetParent(_parent);
-            
             _usedItems.Remove(item);
             _notUsedItems.Add(item);
         }

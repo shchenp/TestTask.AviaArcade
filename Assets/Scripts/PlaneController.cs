@@ -20,14 +20,24 @@ public class PlaneController : MonoBehaviour
     [SerializeField]
     private float _speed = 15;
 
-    // todo сделать движение более плавным
+    private void Awake()
+    {
+        _playerTargetPoint.position = _splineTargetPoint.position;
+    }
+
     private void Update()
     {
-        _playerTargetPoint.position = _splineTargetPoint.position + _splineTargetPoint.TransformDirection(_joystick.Direction) * _targetMaxOffset;
-        _playerTargetPoint.position += _splineTargetPoint.forward * _lookAtDistance;
+        var nextPlayerTargetPointPosition = 
+            _splineTargetPoint.position + _splineTargetPoint.TransformDirection(_joystick.Direction) * _targetMaxOffset;
+        nextPlayerTargetPointPosition += _splineTargetPoint.forward * _lookAtDistance;
+
+        var nextPointDirection = (nextPlayerTargetPointPosition - _playerTargetPoint.position).normalized;
+        var distance = _speed * Time.deltaTime;
+        _playerTargetPoint.Translate(nextPointDirection * distance, Space.World);
+        
+        transform.LookAt(_playerTargetPoint);
 
         var direction = (_playerTargetPoint.position - transform.position).normalized;
-        transform.LookAt(_playerTargetPoint);
-        transform.Translate(direction * _speed * Time.deltaTime, Space.World);
+        transform.Translate(direction * distance, Space.World);
     }
 }

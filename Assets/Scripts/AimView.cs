@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class AimView : MonoBehaviour
 {
     [SerializeField]
     private Transform _aim;
     [SerializeField]
-    private Material _material;
+    private Image _image;
 
     private Color _defaultColor;
     private Color _onEnemyColor = Color.red;
@@ -14,10 +16,10 @@ public class AimView : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-        _defaultColor = _material.color;
+        _defaultColor = _image.color;
     }
 
-    void Update()
+    private void Update()
     {
         transform.position = _aim.position;
         transform.rotation = _aim.rotation;
@@ -30,13 +32,11 @@ public class AimView : MonoBehaviour
         {
             if (hitInfo.collider.CompareTag(GlobalConstants.EnemyTag))
             {
-                _material.color = _onEnemyColor;
+                _image.color = _onEnemyColor;
                 return;
             }
         }
 
-        _material.color = _defaultColor;
+        _image.color = _defaultColor;
     }
-    
-    
 }

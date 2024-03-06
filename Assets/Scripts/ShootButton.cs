@@ -11,6 +11,7 @@ public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private Image _image;
     [SerializeField] private float _timeUntilNextShot;
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+    [SerializeField] private AudioSource _audio;
     
     [SerializeField] private UnityEvent _fireAllGuns;
 
@@ -32,6 +33,8 @@ public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         _image.color = _pressedButtonColor;
         _virtualCamera.enabled = false;
         _isButtonPressed = true;
+        
+        _audio.Play();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -39,6 +42,8 @@ public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         _image.color = _defaultButtonColor;
         _virtualCamera.enabled = true;
         _isButtonPressed = false;
+        
+        _audio.Stop();
     }
 
     private void Update()

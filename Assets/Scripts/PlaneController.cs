@@ -1,3 +1,4 @@
+using System;
 using Dreamteck.Splines;
 using UnityEngine;
 
@@ -20,17 +21,33 @@ public class PlaneController : MonoBehaviour
 
     [SerializeField]
     private float _speed = 15;
+    
+    [SerializeField]
+    private AudioSource _engineAudio;
 
     private Transform _splineTargetPoint;
+    private bool _isGameStarted;
 
     private void Awake()
     {
         _splineTargetPoint = _splineTarget.transform;
         _playerTargetPoint.position = _splineTargetPoint.position;
         _splineTarget.followSpeed = _speed;
+        
+        GameManager.Instance.SetPlayer(this);
     }
 
     private void Update()
+    {
+        if (!_isGameStarted)
+        {
+            return;
+        }
+        
+        Move();
+    }
+
+    private void Move()
     {
         var nextPlayerTargetPointPosition = 
             _splineTargetPoint.position + _splineTargetPoint.TransformDirection(_joystick.Direction) * _targetMaxOffset;
@@ -44,5 +61,13 @@ public class PlaneController : MonoBehaviour
 
         var direction = (_playerTargetPoint.position - transform.position).normalized;
         transform.Translate(direction * distance, Space.World);
+    }
+
+    public void OnGameStarted()
+    {
+        _isGameStarted = true;
+        _splineTarget.enabled = true;
+        
+        _engineAudio.Play();
     }
 }

@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
     [SerializeField] private float _speed;
+    [SerializeField] private AudioSource _engineAudio;
     [Space]
     [SerializeField] private AudioSource _crashAudio;
     [SerializeField] private float _audioDelay;
@@ -25,8 +27,10 @@ public class Enemy : MonoBehaviour
     {
         _settings.Initialize(_speed);
         _explosionEffectTime = _audioDelay;
+        
+        GameManager.Instance.SetEnemy(this);
     }
-
+    
     private void Update()
     {
         if (!isFallingDown)
@@ -77,5 +81,11 @@ public class Enemy : MonoBehaviour
     {
         var rotation = Time.deltaTime * _rotationValue;
         transform.Rotate(Vector3.forward * rotation, Space.Self);
+    }
+
+    public void OnGameStarted()
+    {
+        _settings.ActivateSplineFollower();
+        _engineAudio.Play();
     }
 }

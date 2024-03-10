@@ -19,4 +19,9 @@ using UnityEngine;
             _collider.convex = true;
             _rigidbody.isKinematic = false;
         }
+
+        public void ActivateSplineFollower()
+        {
+            _splineFollower.enabled = true;
+        }
     }

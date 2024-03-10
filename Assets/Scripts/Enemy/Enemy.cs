@@ -73,8 +73,14 @@ public class Enemy : MonoBehaviour
         {
             _explosionEffect.Play();
             
-            this.DoAfter(() => gameObject.SetActive(false), _explosionEffectTime);
+            this.DoAfter(OnExplosion, _explosionEffectTime);
         }
+    }
+
+    private void OnExplosion()
+    {
+        gameObject.SetActive(false);
+        ScreenManager.Instance.ShowPassScreen();
     }
     
     private void Roll()

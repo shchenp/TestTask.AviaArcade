@@ -4,7 +4,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// todo добавить звук стрельбы при нажатии на кнопку
 [RequireComponent(typeof(Image))]
 public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {

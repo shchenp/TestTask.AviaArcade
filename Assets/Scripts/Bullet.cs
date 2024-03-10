@@ -32,8 +32,6 @@ public class Bullet : MonoBehaviour
         var flyDistance = _force * Time.deltaTime;
         MoveForward(flyDistance);
         
-        // todo сменить реализацию попадания пули во врага, переместить логику в Enemy
-        
         var ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out var hit, flyDistance))
         {

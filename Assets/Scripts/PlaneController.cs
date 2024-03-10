@@ -1,9 +1,10 @@
+using Dreamteck.Splines;
 using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
     [SerializeField]
-    private Transform _splineTargetPoint;
+    private SplineFollower _splineTarget;
 
     [SerializeField]
     private Transform _playerTargetPoint;
@@ -20,9 +21,13 @@ public class PlaneController : MonoBehaviour
     [SerializeField]
     private float _speed = 15;
 
+    private Transform _splineTargetPoint;
+
     private void Awake()
     {
+        _splineTargetPoint = _splineTarget.transform;
         _playerTargetPoint.position = _splineTargetPoint.position;
+        _splineTarget.followSpeed = _speed;
     }
 
     private void Update()

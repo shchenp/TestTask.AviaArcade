@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class AimView : MonoBehaviour
@@ -26,8 +25,7 @@ public class AimView : MonoBehaviour
 
         var screenPosition = _camera.WorldToScreenPoint(transform.position);
         var ray = _camera.ScreenPointToRay(screenPosition);
-
-        // todo подумать над альтернативной реализацией с меньшей затратой ресурсов
+        
         if (Physics.Raycast(ray, out var hitInfo))
         {
             if (hitInfo.collider.CompareTag(GlobalConstants.EnemyTag))

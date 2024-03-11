@@ -1013,7 +1013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 242557148}
   - component: {fileID: 242557146}
-  - component: {fileID: 242557147}
+  - component: {fileID: 242557149}
   m_Layer: 0
   m_Name: UICamer
   m_TagString: MainCamera
@@ -1064,14 +1064,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &242557147
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 242557145}
-  m_Enabled: 0
 --- !u!4 &242557148
 Transform:
   m_ObjectHideFlags: 0
@@ -1087,6 +1079,39 @@ Transform:
   m_Father: {fileID: 857026049}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &242557149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242557145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &317863378 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8190671857934602468, guid: 91643378555bb491c9f9097ee1094902,
@@ -1910,7 +1935,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 242557146}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -3681,6 +3707,11 @@ PrefabInstance:
       propertyPath: _passScreen
       value: 
       objectReference: {fileID: 373544617}
+    - target: {fileID: 6529225714486995055, guid: 1f9170a241a4ee843893c3940c795aab,
+        type: 3}
+      propertyPath: _startCamera
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7221654342637677733, guid: 1f9170a241a4ee843893c3940c795aab, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1f9170a241a4ee843893c3940c795aab, type: 3}
@@ -4922,6 +4953,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6620313311772215946, guid: 91643378555bb491c9f9097ee1094902,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191776868837312856, guid: 91643378555bb491c9f9097ee1094902,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191776868919616218, guid: 91643378555bb491c9f9097ee1094902,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8191776869113828526, guid: 91643378555bb491c9f9097ee1094902,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8394535212515680966, guid: 91643378555bb491c9f9097ee1094902,
         type: 3}
       propertyPath: m_LocalPosition.z

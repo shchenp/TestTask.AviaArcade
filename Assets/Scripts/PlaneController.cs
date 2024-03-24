@@ -1,4 +1,3 @@
-using System;
 using Dreamteck.Splines;
 using UnityEngine;
 
@@ -12,6 +11,9 @@ public class PlaneController : MonoBehaviour
     
     [SerializeField] 
     private FixedJoystick _joystick;
+
+    [SerializeField]
+    private WingsController _wingsController;
 
     [SerializeField]
     private float _targetMaxOffset = 10;
@@ -45,6 +47,12 @@ public class PlaneController : MonoBehaviour
         }
         
         Move();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        _wingsController.Rotate(_joystick.Direction);
     }
 
     private void Move()
